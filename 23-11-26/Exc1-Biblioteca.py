@@ -13,9 +13,10 @@ class livro:
 
     def emprestar(self):
         if self.disponivel == True:
+         print("Livro Emprestado!")
          self.disponivel = False
         else:
-            print("Livro Emprestado!")
+            print("Livro não está disponivel!")
 
     def devolver(self):
         if self.disponivel == False:
