@@ -8,9 +8,11 @@ class Livro:
     def emprestar(self):
         if self.disponivel == True:
             self.disponivel = False
-            print(f"O Livro {self.titulo} foi emprestado!") 
+            print(f"O Livro {self.titulo} foi emprestado!")
+            return True 
         else: 
             print(f"O Livro {self.titulo} esta indisponivel!")
+            return False
 
     def devolver(self):
         if self.disponivel == False:
@@ -27,9 +29,9 @@ class Livro:
 
 
 L1 = Livro("Livro1","Autor1",1,True)
-L2 = Livro("Livro2","Autor1",2,False)
+L2 = Livro("Livro2","Autor1",2,True)
 L3 = Livro("Livro3","Autor3",3,True)
-L4 = Livro("Livro4","Autor2",4,False)
+L4 = Livro("Livro4","Autor2",4,True)
 L5 = Livro("Livro5","Autor2",5,True)
 
 biblioteca = [L1,L2,L3,L4,L5]
@@ -56,13 +58,41 @@ class Usuario():
 
     def pegar_livro(self):
         if len(self.emprestados) < self.limite:
-           livro = input("Digite o nome do livro que deseja: ")
-           for i in biblioteca:
-               if i.titulo == livro:
-                   self.emprestados.append(i)
-                   i.disponivel = False
-                      
+            livro = input("Digite o nome do livro que deseja: ")        
+            for i in biblioteca:
+                if i.titulo == livro:
+                    if i.emprestar():
+                        self.emprestados.append(i)
+                    c = ""
+                    break
+                else:
+                    c = "Não"
+            if c == "Não":
+                print(f"O Livro {livro} não foi encontrado!")
 
-U1 = Usuario("Rian",67)
+class Aluno(Usuario):
+    def __init__(self, nome, matricula):
+        super().__init__(nome, matricula)
+        self.limite = 2
 
-U1.pegar_livro()
+    def pegar_livro(self):
+        if len(self.emprestados) < self.limite:
+            return super().pegar_livro()
+        else:
+            print(f"O aluno {self.nome} Já atingiu o limite de livros emprestados!")
+    
+
+class Professor(Usuario):
+    def __init__(self, nome, matricula):
+        super().__init__(nome, matricula)
+        self.limite = 5
+
+    def pegar_livro(self):
+        if len(self.emprestados) < self.limite:
+            return super().pegar_livro()
+        else:
+            print(f"O Professor {self.nome} Já atingiu o limite de livros emprestados!")
+
+A1 = Aluno("Rian",67)
+
+P1 = Professor("Guilherme",55)
