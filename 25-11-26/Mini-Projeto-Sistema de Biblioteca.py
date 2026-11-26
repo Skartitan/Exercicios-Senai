@@ -63,12 +63,24 @@ class Usuario():
                 if i.titulo == livro:
                     if i.emprestar():
                         self.emprestados.append(i)
-                    c = ""
-                    break
-                else:
-                    c = "Não"
-            if c == "Não":
+                        break
+            else:
                 print(f"O Livro {livro} não foi encontrado!")
+
+    def devolver_livro(self):
+        if len(self.emprestados) == 0:
+            print("Nao tem")
+        else:
+            livro = input("Digite o nome do livro que deseja devolver: ")
+            for i in biblioteca:
+                if i.titulo == livro:
+                    if i.disponivel == False:
+                        self.emprestados.remove(i)
+                        i.disponivel = True
+                        print("Livro Devolvido!")
+                    else:
+                        print("O livro ja está Devolvido!")
+    
 
 class Aluno(Usuario):
     def __init__(self, nome, matricula):
@@ -94,5 +106,9 @@ class Professor(Usuario):
             print(f"O Professor {self.nome} Já atingiu o limite de livros emprestados!")
 
 A1 = Aluno("Rian",67)
-
 P1 = Professor("Guilherme",55)
+
+A1.pegar_livro()
+A1.devolver_livro()
+P1.pegar_livro()
+P1.devolver_livro()
